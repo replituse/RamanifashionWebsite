@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
-import { useQuery } from "@tantml:parameter>
+import { useQuery } from "@tanstack/react-query";
 import { queryClient } from "@/lib/queryClient";
 import {
   DropdownMenu,
