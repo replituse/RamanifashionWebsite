@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import bannerImage from "@assets/Pink and Gold Gradient Decorative Woman Wonderful Indian YouTube Thumbnail (5)_1762447624392.png";
+import bannerImage from "@assets/BANNER (1).png";
 
 const slides = [
   {
@@ -32,7 +32,10 @@ export default function HeroCarousel() {
   };
 
   return (
-    <div className="relative w-full overflow-hidden" style={{ height: 'calc(100vh - 140px)', backgroundColor: '#fff' }}>
+    <div
+      className="relative w-full overflow-hidden"
+      style={{ height: "calc(100vh - 140px)", backgroundColor: "#fff" }}
+    >
       {slides.map((slide, index) => (
         <div
           key={index}
@@ -46,7 +49,7 @@ export default function HeroCarousel() {
               alt="Ramani Fashion Banner"
               className="w-full h-full object-cover object-center"
               data-testid={`img-hero-banner-${index}`}
-              style={{ display: 'block' }}
+              style={{ display: "block" }}
             />
           </div>
         </div>
