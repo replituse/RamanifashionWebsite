@@ -1,13 +1,9 @@
 import Header from "@/components/Header";
 import HeroCarousel from "@/components/HeroCarousel";
 import CategoryCard from "@/components/CategoryCard";
-import ProductCard from "@/components/ProductCard";
 import NewArrivalCard from "@/components/NewArrivalCard";
-import OccasionCard from "@/components/OccasionCard";
-import TrustBadges from "@/components/TrustBadges";
 import TestimonialCard from "@/components/TestimonialCard";
 import Footer from "@/components/Footer";
-import { Card } from "@/components/ui/card";
 import { useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 
@@ -19,7 +15,6 @@ import casualImage from "@assets/generated_images/Casual_linen_saree_030a208d.pn
 import banarasiImage from "@assets/generated_images/Banarasi_saree_detail_604e6fdd.png";
 import festiveImage from "@assets/generated_images/Festive_collection_banner_7a822710.png";
 import customerImage from "@assets/generated_images/Customer_testimonial_portrait_6ffe6534.png";
-import pinkHeroImage from "@assets/generated_images/Pink_silk_saree_hero_a644da4b.png";
 
 export default function Home() {
   const [, setLocation] = useLocation();
@@ -64,13 +59,6 @@ export default function Home() {
     }
   ];
 
-  const priceRanges = [
-    { title: "Sarees Under ₹3999", image: casualImage, maxPrice: 3999 },
-    { title: "Salwar Suits Under ₹2999", image: partyImage, maxPrice: 2999 },
-    { title: "Dress Materials Under ₹2999", image: cottonImage, maxPrice: 2999 },
-    { title: "Lehengas Under ₹14999", image: bridalImage, maxPrice: 14999 }
-  ];
-
   const handleCategoryClick = (cat: any) => {
     const params = new URLSearchParams();
     if (cat.category) params.set("category", cat.category);
@@ -79,24 +67,6 @@ export default function Home() {
     if (cat.fabric) params.set("fabric", cat.fabric);
     setLocation(`/products?${params.toString()}`);
   };
-
-  const occasions = [
-    {
-      title: "Weddings",
-      image: bridalImage,
-      description: "Exquisite sarees for your special day",
-    },
-    {
-      title: "Festivals",
-      image: festiveImage,
-      description: "Celebrate in traditional elegance",
-    },
-    {
-      title: "Party",
-      image: partyImage,
-      description: "Stand out at every celebration",
-    },
-  ];
 
   const testimonials = [
     {
@@ -161,49 +131,6 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="bg-gradient-to-r from-primary/10 to-pink-100 py-12 my-12">
-          <div className="max-w-7xl mx-auto px-4">
-            <Card className="bg-gradient-to-r from-primary to-pink-600 text-white p-8 md:p-12 text-center overflow-hidden relative">
-              <div className="absolute inset-0 opacity-10">
-                <img src={pinkHeroImage} alt="" className="w-full h-full object-cover" />
-              </div>
-              <div className="relative z-10">
-                <h2 className="text-3xl md:text-4xl font-bold mb-4">App Exclusive Offer</h2>
-                <p className="text-xl mb-6">Flat 15% Off</p>
-                <p className="text-lg mb-6">Use Code: APPFIRST</p>
-                <button className="bg-white text-primary px-8 py-3 rounded-md font-semibold hover-elevate active-elevate-2">
-                  Shop Now
-                </button>
-              </div>
-            </Card>
-          </div>
-        </section>
-
-        <section className="max-w-7xl mx-auto px-4 py-12">
-          <h2 className="text-3xl font-bold text-center mb-8">Curated for You</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-            {priceRanges.map((range) => (
-              <Card
-                key={range.title}
-                className="overflow-hidden cursor-pointer hover-elevate active-elevate-2 group"
-                onClick={() => setLocation(`/products?maxPrice=${range.maxPrice}`)}
-              >
-                <div className="aspect-[3/4] relative overflow-hidden">
-                  <img
-                    src={range.image}
-                    alt={range.title}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-4 text-white text-center">
-                    <h3 className="font-semibold">{range.title}</h3>
-                  </div>
-                </div>
-              </Card>
-            ))}
-          </div>
-        </section>
-
         <section className="max-w-7xl mx-auto px-4 py-12">
           <h2 className="text-3xl font-bold text-center mb-8" data-testid="text-section-categories">
             Shop by Category
@@ -219,28 +146,6 @@ export default function Home() {
               />
             ))}
           </div>
-        </section>
-
-
-        <section className="max-w-7xl mx-auto px-4 py-12">
-          <h2 className="text-3xl font-bold text-center mb-8" data-testid="text-section-occasions">
-            Shop by Occasion
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {occasions.map((occasion) => (
-              <OccasionCard
-                key={occasion.title}
-                title={occasion.title}
-                image={occasion.image}
-                description={occasion.description}
-                onClick={() => setLocation(`/products?occasion=${occasion.title}`)}
-              />
-            ))}
-          </div>
-        </section>
-
-        <section className="max-w-7xl mx-auto px-4 py-12">
-          <TrustBadges />
         </section>
 
         <section className="bg-card py-12">
