@@ -16,6 +16,14 @@ import banarasiImage from "@assets/generated_images/Banarasi_saree_detail_604e6f
 import festiveImage from "@assets/generated_images/Festive_collection_banner_7a822710.png";
 import customerImage from "@assets/generated_images/Customer_testimonial_portrait_6ffe6534.png";
 import ramaniBanner from "@/assets/ramani-banner.png";
+import paithaniImage from "@/assets/paithani.png";
+import khunIrkalImage from "@/assets/khun-irkal.png";
+import ajrakhModalImage from "@/assets/ajrakh-modal.png";
+import mulCottonImage from "@/assets/mul-cotton.png";
+import khadiCottonImage from "@/assets/khadi-cotton.png";
+import patchWorkImage from "@/assets/patch-work.png";
+import pureLinenImage from "@/assets/pure-linen.png";
+import saleImage from "@/assets/sale.png";
 
 export default function Home() {
   const [, setLocation] = useLocation();
@@ -31,15 +39,15 @@ export default function Home() {
   const newArrivals = (newArrivalsData as any)?.products || [];
   const trendingProducts = (trendingData as any)?.products || [];
 
-  const categories = [
-    { name: "Silk Sarees", image: bridalImage, itemCount: 156, category: "Silk Sarees" },
-    { name: "Cotton Sarees", image: cottonImage, itemCount: 234, category: "Cotton Sarees" },
-    { name: "Designer Sarees", image: designerImage, itemCount: 89, category: "Designer Sarees" },
-    { name: "Bridal Sarees", image: bridalImage, itemCount: 67, subcategory: "Bridal" },
-    { name: "Party Wear", image: partyImage, itemCount: 145, occasion: "Party" },
-    { name: "Casual Wear", image: casualImage, itemCount: 198, occasion: "Casual" },
-    { name: "Banarasi", image: banarasiImage, itemCount: 78, fabric: "Banarasi" },
-    { name: "Kanjeevaram", image: bridalImage, itemCount: 92, fabric: "Kanjeevaram" },
+  const newCategories = [
+    { name: "Jamdani Paithani", image: paithaniImage },
+    { name: "Khun / Irkal (Ilkal)", image: khunIrkalImage },
+    { name: "Ajrakh Modal", image: ajrakhModalImage },
+    { name: "Mul Mul Cotton", image: mulCottonImage },
+    { name: "Khadi Cotton", image: khadiCottonImage },
+    { name: "Patch Work", image: patchWorkImage },
+    { name: "Pure Linen", image: pureLinenImage },
+    { name: "Sale", image: saleImage },
   ];
 
   const collections = [
@@ -65,14 +73,6 @@ export default function Home() {
     }
   ];
 
-  const handleCategoryClick = (cat: any) => {
-    const params = new URLSearchParams();
-    if (cat.category) params.set("category", cat.category);
-    if (cat.subcategory) params.set("subcategory", cat.subcategory);
-    if (cat.occasion) params.set("occasion", cat.occasion);
-    if (cat.fabric) params.set("fabric", cat.fabric);
-    setLocation(`/products?${params.toString()}`);
-  };
 
   const testimonials = [
     {
@@ -181,18 +181,23 @@ export default function Home() {
         </section>
 
         <section className="max-w-7xl mx-auto px-4 py-12">
-          <h2 className="text-3xl font-bold text-center mb-8" data-testid="text-section-categories">
+          <h2 className="text-3xl font-bold text-center mb-12" data-testid="text-section-categories">
             Shop by Category
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {categories.map((category) => (
-              <CategoryCard
-                key={category.name}
-                name={category.name}
-                image={category.image}
-                itemCount={category.itemCount}
-                onClick={() => handleCategoryClick(category)}
-              />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {newCategories.map((category) => (
+              <div key={category.name} className="flex flex-col items-center group cursor-pointer">
+                <div className="w-full aspect-[3/4] overflow-hidden rounded-lg mb-4 shadow-md hover:shadow-xl transition-shadow duration-300">
+                  <img 
+                    src={category.image} 
+                    alt={category.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <h3 className="text-center text-base md:text-lg font-semibold text-foreground">
+                  {category.name}
+                </h3>
+              </div>
             ))}
           </div>
         </section>
