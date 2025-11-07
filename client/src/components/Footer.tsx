@@ -18,8 +18,8 @@ export default function Footer() {
   return (
     <footer className="bg-gradient-to-b from-pink-50 to-white border-t mt-16">
       <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-8">
-          <div className="lg:col-span-1">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 mb-8">
+          <div className="lg:col-span-2">
             <img 
               src={logoImage}
               alt="Ramani Fashion" 
