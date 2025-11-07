@@ -50,6 +50,7 @@ const userSchema = new Schema({
 const otpSchema = new Schema({
   phone: { type: String, required: true },
   otp: { type: String, required: true },
+  verified: { type: Boolean, default: false },
   expiresAt: { type: Date, required: true },
   createdAt: { type: Date, default: Date.now },
 });

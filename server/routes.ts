@@ -184,6 +184,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { name, email, password, phone } = req.body;
 
+      // Check if OTP was verified for this phone number
+      const verifiedOtp = await OTP.findOne({ 
+        phone, 
+        verified: true,
+        expiresAt: { $gt: new Date() }
+      });
+
+      if (!verifiedOtp) {
+        return res.status(400).json({ error: 'Please verify your mobile number with OTP first' });
+      }
+
       const existingUser = await User.findOne({ email });
       if (existingUser) {
         return res.status(400).json({ error: 'Email already registered' });
@@ -194,10 +205,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         name,
         email,
         password: hashedPassword,
-        phone
+        phone,
+        phoneVerified: true
       });
 
       await user.save();
+
+      // Clean up the used OTP
+      await OTP.deleteOne({ _id: verifiedOtp._id });
 
       const token = jwt.sign({ userId: user._id, email: user.email }, JWT_SECRET);
       res.status(201).json({
@@ -211,7 +226,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/auth/login", async (req, res) => {
     try {
-      const { email, password } = req.body;
+      const { email, password, phone } = req.body;
 
       const user = await User.findOne({ email });
       if (!user) {
@@ -221,6 +236,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const isValidPassword = await bcrypt.compare(password, user.password);
       if (!isValidPassword) {
         return res.status(401).json({ error: 'Invalid credentials' });
+      }
+
+      // Check if phone verification is required
+      if (!user.phoneVerified) {
+        if (!phone) {
+          return res.status(400).json({ error: 'Please provide your mobile number and verify with OTP' });
+        }
+
+        // Verify that the provided phone matches the user's stored phone
+        if (phone !== user.phone) {
+          return res.status(400).json({ error: 'Phone number does not match your account' });
+        }
+
+        // Check if OTP was verified for this phone number
+        const verifiedOtp = await OTP.findOne({ 
+          phone, 
+          verified: true,
+          expiresAt: { $gt: new Date() }
+        });
+
+        if (!verifiedOtp) {
+          return res.status(400).json({ error: 'Please verify your mobile number with OTP first' });
+        }
+
+        // Update user's phone verification status
+        user.phoneVerified = true;
+        await user.save();
+
+        // Clean up the used OTP
+        await OTP.deleteOne({ _id: verifiedOtp._id });
       }
 
       const token = jwt.sign({ userId: user._id, email: user.email }, JWT_SECRET);
@@ -287,8 +332,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: 'OTP expired' });
       }
 
-      // Delete the used OTP
-      await OTP.deleteOne({ _id: otpRecord._id });
+      // Mark OTP as verified instead of deleting it
+      otpRecord.verified = true;
+      await otpRecord.save();
 
       res.json({ message: 'OTP verified successfully', verified: true });
     } catch (error: any) {
