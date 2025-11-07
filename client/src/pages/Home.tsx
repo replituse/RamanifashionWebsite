@@ -6,6 +6,8 @@ import TestimonialCard from "@/components/TestimonialCard";
 import Footer from "@/components/Footer";
 import { useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 import bridalImage from "@assets/generated_images/Bridal_saree_product_shot_3a9642d4.png";
 import cottonImage from "@assets/generated_images/Cotton_saree_product_3295c949.png";
@@ -27,6 +29,7 @@ import saleImage from "@/assets/sale.png";
 
 export default function Home() {
   const [, setLocation] = useLocation();
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const { data: newArrivalsData } = useQuery({
     queryKey: ["/api/products?isNew=true&limit=6"],
@@ -86,6 +89,18 @@ export default function Home() {
       { stars: 1, count: 64, percentage: 2 },
     ]
   };
+
+  const customerPhotos = [
+    bridalImage,
+    designerImage,
+    festiveImage,
+    partyImage,
+    cottonImage,
+    casualImage,
+    banarasiImage,
+    paithaniImage,
+    khunIrkalImage,
+  ];
 
   const customerReviews = [
     {
@@ -228,7 +243,7 @@ export default function Home() {
             </h2>
             
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-12">
-              <div className="lg:col-span-1">
+              <div className="lg:col-span-1 space-y-6">
                 <div className="bg-background rounded-xl p-8 shadow-sm border border-border">
                   <div className="flex items-baseline gap-2 mb-2">
                     <span className="text-6xl font-bold text-foreground">{ratingStats.overall}</span>
@@ -251,6 +266,27 @@ export default function Home() {
                         <span className="text-sm text-muted-foreground w-12 text-right">
                           {item.count}
                         </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="bg-background rounded-xl p-6 shadow-sm border border-border">
+                  <h3 className="text-lg font-semibold text-foreground mb-4">
+                    Customer Photos ({customerPhotos.length})
+                  </h3>
+                  <div className="grid grid-cols-3 gap-2">
+                    {customerPhotos.map((photo, index) => (
+                      <div 
+                        key={index}
+                        onClick={() => setSelectedImage(photo)}
+                        className="aspect-square overflow-hidden rounded-lg cursor-pointer hover:opacity-80 transition-opacity border border-border"
+                      >
+                        <img 
+                          src={photo} 
+                          alt={`Customer photo ${index + 1}`}
+                          className="w-full h-full object-cover"
+                        />
                       </div>
                     ))}
                   </div>
@@ -308,6 +344,20 @@ export default function Home() {
       </main>
 
       <Footer />
+
+      <Dialog open={!!selectedImage} onOpenChange={() => setSelectedImage(null)}>
+        <DialogContent className="max-w-4xl w-full p-0 bg-black/95 border-none">
+          <div className="relative w-full h-[80vh] flex items-center justify-center">
+            {selectedImage && (
+              <img 
+                src={selectedImage} 
+                alt="Customer photo full view"
+                className="max-w-full max-h-full object-contain"
+              />
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
