@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -11,8 +11,10 @@ import { Slider } from "@/components/ui/slider";
 import { SlidersHorizontal, X } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ChevronDown } from "lucide-react";
+import { useLocation } from "wouter";
 
 export default function Products() {
+  const [location] = useLocation();
   const [showFilters, setShowFilters] = useState(false);
   const [sortBy, setSortBy] = useState("createdAt");
   const [order, setOrder] = useState("desc");
@@ -24,6 +26,24 @@ export default function Products() {
   const [selectedOccasions, setSelectedOccasions] = useState<string[]>([]);
   const [inStockOnly, setInStockOnly] = useState(false);
   const [openSections, setOpenSections] = useState<string[]>(["categories", "price", "fabric"]);
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    const categoryParam = urlParams.get('category');
+    setSelectedCategories(categoryParam ? categoryParam.split(',') : []);
+    
+    const occasionParam = urlParams.get('occasion');
+    setSelectedOccasions(occasionParam ? occasionParam.split(',') : []);
+    
+    const colorParam = urlParams.get('color');
+    setSelectedColors(colorParam ? colorParam.split(',') : []);
+    
+    const fabricParam = urlParams.get('fabric');
+    setSelectedFabrics(fabricParam ? fabricParam.split(',') : []);
+    
+    setPage(1);
+  }, [location]);
 
   const toggleSection = (section: string) => {
     setOpenSections(prev =>
