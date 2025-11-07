@@ -226,7 +226,7 @@ export default function Home() {
               </div>
               <button
                 onClick={() => setLocation("/new-arrivals")}
-                className="absolute right-0 top-1/2 -translate-y-1/2 px-6 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+                className="absolute right-0 top-1/2 -translate-y-1/2 px-8 py-3 bg-primary text-white border-2 border-white rounded-full hover:bg-primary/90 transition-colors font-bold"
                 data-testid="button-view-all-new-arrivals"
               >
                 View All
@@ -273,7 +273,7 @@ export default function Home() {
               </div>
               <button
                 onClick={() => setLocation("/products?isTrending=true")}
-                className="absolute right-0 top-1/2 -translate-y-1/2 px-6 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+                className="absolute right-0 top-1/2 -translate-y-1/2 px-8 py-3 bg-primary text-white border-2 border-white rounded-full hover:bg-primary/90 transition-colors font-bold"
                 data-testid="button-view-all-trending"
               >
                 View All
