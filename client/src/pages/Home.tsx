@@ -187,7 +187,7 @@ export default function Home() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {newCategories.map((category) => (
               <div key={category.name} className="flex flex-col items-center group cursor-pointer">
-                <div className="w-full aspect-[3/4] overflow-hidden rounded-lg mb-4 shadow-md hover:shadow-xl transition-shadow duration-300">
+                <div className="w-full aspect-[2/3] overflow-hidden rounded-lg mb-4 shadow-md hover:shadow-xl transition-shadow duration-300">
                   <img 
                     src={category.image} 
                     alt={category.name}
