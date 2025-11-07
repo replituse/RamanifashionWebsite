@@ -16,6 +16,7 @@ import banarasiImage from "@assets/generated_images/Banarasi_saree_detail_604e6f
 import festiveImage from "@assets/generated_images/Festive_collection_banner_7a822710.png";
 import customerImage from "@assets/generated_images/Customer_testimonial_portrait_6ffe6534.png";
 import ramaniBanner from "@/assets/ramani-banner.png";
+import scrollSvg from "@/assets/scroll.svg";
 
 export default function Home() {
   const [, setLocation] = useLocation();
@@ -176,6 +177,15 @@ export default function Home() {
                   onClick={() => setLocation(`/product/${product._id}`)}
                 />
               ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="w-full overflow-hidden py-8 bg-background">
+          <div className="relative flex">
+            <div className="flex animate-scroll-left">
+              <img src={scrollSvg} alt="Decorative scroll" className="h-24 md:h-32 w-auto" />
+              <img src={scrollSvg} alt="Decorative scroll" className="h-24 md:h-32 w-auto" />
             </div>
           </div>
         </section>
